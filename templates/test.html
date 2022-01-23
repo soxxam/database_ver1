@@ -1,0 +1,19 @@
+<html>
+<head>
+  <title>WYSIWYG editor với nicEditor</title>  
+    <script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>
+  <script type="text/javascript">
+  bkLib.onDomLoaded(function() {
+        new nicEditor({maxHeight : 200}).panelInstance('area');
+  });
+  </script>
+</head>
+<body>
+<div id="sample">
+  <h4>Simple textarea</h4>  
+  <textarea name="area" id="area" style="width:70%;height:200px;">
+      Đây là nội dung
+  </textarea>
+</div>
+</body>
+</html>
