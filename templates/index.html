@@ -1,40 +1,85 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Title</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Title</title>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   </head>
   <body>
-    <nav class="navbar navbar-default">
-		<h1>ToDoList</h1>
-	</nav>
-	<div class="jumbotron">
-		<form class="form-group" action="/" method="post">
-			<label for="name">Enter all the tasks to be performed</label>
-			<input type="text" name="name" class="form-control"><br>
-			<button class="btn btn-primary" type="submit" name="submit" value="add">Submit</button>
-			<button class="btn btn-danger" type="submit" name="submit" value="delete">Delete</button>
-		</form>
-		
-	</div>
-    <div class="container-fluid">
-		{% for l in t %}
-			<ul class="list-group">
-				<li class="list-group-item">
-					{{l}}
-				</li>
-			</ul>
-		{% endfor %}
-	</div>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	  <h1 class = "m-5" style="text-align: center;"> Form nhap </h1>
+	  <div class="container">
+		  <div class="row">
+			  <div class="col-12">
+				<form action="/" method="post">
+					<div class="form-group">
+						<label for="exampleFormControlSelect1">Category - danh mục</label>
+						<select name="category" class="form-control" id="exampleFormControlSelect1">
+							<option>SPEAKING - GIAO TIẾP</option>
+							<option>NGỮ ÂM</option>
+						</select>
+					</div>
+					<div class="form-group">
+					  <label for="exampleInputQuestion1">Question</label>
+					  <textarea type="text" rows="4" class="form-control" id="exampleInputQuestion1" aria-describedby="emailHelp" name="question"></textarea>
+					  <small id="emailHelp" class="form-text text-muted">Nhap cau hoi vao</small>
+					</div>
+					<hr>
+					<h1>Answer</h1>
+					<div class="form-row">
+						<!-- 1 cau tra loi -->
+						<div class="form-group col-md-12 form-check">
+							<label for="inputAnswer1">Answer 1</label>
+							<br>
+							<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="answer1">
+						  <input type="text" class="form-control" id="inputAnswer1"  name="answer1">
+						</div>
+						<!-- het 1 cau tra loi -->
+						<!-- 1 cau tra loi -->
+						<div class="form-group col-md-12 form-check">
+							<label for="inputAnswer2">Answer 2</label>
+							<br>
+							<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="answer2">
+						  <input type="text" class="form-control" id="inputAnswer2"  name="answer2">
+						</div>
+						<!-- het 1 cau tra loi -->
+						<!-- 1 cau tra loi -->
+						<div class="form-group col-md-12 form-check">
+							<label for="inputAnswer3">Answer 3</label>
+							<br>
+							<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3" value="answer3">
+						  <input type="text" class="form-control" id="inputAnswer3"  name="answer3">
+						</div>
+						<!-- het 1 cau tra loi -->
+						<!-- 1 cau tra loi -->
+						<div class="form-group col-md-12 form-check">
+							<label for="inputAnswer4">Answer 4</label>
+							<br>
+							<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault4" value="answer4">
+						  <input type="text" class="form-control" id="inputAnswer4"  name="answer4">
+						</div>
+						<!-- het 1 cau tra loi -->
+						<small class="form-text text-muted">Không được nhập A,B,C,D vào nhá, chỉ cần nhập chữ vào rồi chọn radio button là đc</small>
+					  </div>
+				
+					  <div class="form-group">
+						<label for="comment">Title</label>
+						<textarea class="form-control" rows="2" id="comment" name="title"></textarea>
+						<small class="form-text text-muted">Nhập cái tên file vào ấy, ví dụ: "30 Bài tập giao tiếp - Cô Hương Fiona"</small>
+					  </div>
+					  
+					<button type="submit" name="submit" class="btn btn-primary" value="add">Submit</button>
+				  </form>
+			  </div>
+		  </div>
+	  </div>
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   </body>
 </html>
