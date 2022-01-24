@@ -85,11 +85,22 @@ def api_quiz():
 	
 	return jsonify(data)
 
+############################
+@app.route('/menu', methods=['GET', 'POST'])
+def menu():
+	users_ref = db.collection(u'Quiz').stream()
+	docs_id = []
+	title =[]
+	for doc in users_ref:
+		docs_id.append(doc.to_dict())
+		print(f'{doc.id} => {doc.to_dict()}')
+	return render_template('menu.html', docs_id=docs_id,title=title)
 
-@app.route('/doquiz/<name>', methods=['GET', 'POST'])
-def do_quiz(name):
-	Quiz = db.collection(u'Quiz').where(u'capital', u'==', True).stream()
-	data = OrderedDict([(doc.id, doc.to_dict()) for doc in Quiz])
+
+@app.route('/api/menu', methods=['GET', 'POST'])
+def api_menu():
+	users_ref = db.collection(u'Quiz').stream()
+	data = OrderedDict([(doc.id, doc.to_dict()) for doc in users_ref])
 	return jsonify(data)
 
 
