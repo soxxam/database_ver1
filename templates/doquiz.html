@@ -1,40 +1,110 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <title>Bootstrap Example</title>
-  <meta charset="utf-8">
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</head>
-<body>
-<div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <span class="input-group-text" id="basic-addon1">Nhập tên: </span>
-  </div>
-  <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-</div>
-<div class="container" style="border-style: solid;">
-  <h2>Bài Test</h2>
-  <p>Câu hỏi:Ai giỏi nhất ?</p>
-  <form>
-    <div class="radio">
-      <label><input type="radio" name="optradio" >Hoàng</label>
-    </div>
-    <div class="radio">
-      <label><input type="radio" name="optradio">Huy Hoàng</label>
-    </div>
-    <div class="radio">
-      <label><input type="radio" name="optradio" >Nguyễn Huy Hoàng</label>
-    </div>
-      <div class="radio">
-      <label><input type="radio" name="optradio" >Hoàng D14TTNT&TGMT</label>
-    </div>
-  </form>
-</div>
-<button type="button" class="btn btn-primary">Gửi bài</button>
+  <head>
+    <title>Menu</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container">
+  
+      <div class="content-wrapper" style="margin-top: 10%;" id="app">
+          
+        <div class="row justify-content-md-center" style="margin-top: 5%;" v-for="(key, index) in keybooks" :key="index">
+          <div class="col-md-8 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">Bài tập 1</h4>
+                <p class="card-description" v-html="books[key].Title">
+                 
+                </p>
+                <p class="card-description" v-html="books[key].Slug">
+                   
+                  </p>
+             
+               
+
+                
+                <form class="forms-sample">
+                  <div class="form-group col-md-12 form-check">
+           
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="answer1">
+                    <label for="">câu trả lời 1</label><br>
+                    
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="answer1">
+                    <label for="">câu trả lời 1</label><br>
+                    
+                    
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="answer1">
+                    <label for="">câu trả lời 1</label><br>
+                    
+                    
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="answer1">
+                    <label for="">câu trả lời 1</label><br>
+                    
+
+                    
+                  </div>
+                  </div>
+                  
+              
+                </form>
+              </div>
+            </div>
+          </div>
+       
+          
+        </div>
+       
+       
+     
+        
+          
+      </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script  language="JavaScript">
+        const vm = new Vue({
+                el: '#app',
+                // Mock data for the value of BTC in USD
+                data() {
+                  return {
+                    books: [],
+                    keybooks: [],
+                  };
+                },
+                methods: {
+                  getBooks() {
+                    const path = 'http://localhost:5000/api/menu';
+                    axios.get(path)
+                      .then((res) => res.data)
+                      .then(res => {
+                        this.keybooks = Object.keys(res),
+                        this.books = res
+                      })
+                      .catch((error) => {
+                        // eslint-disable-next-line
+                        console.error(error);
+                      });
+                  },
+                },
+                created() {
+                  this.getBooks();
+                },
+              });
+        </script>
+
+
+
 
 </body>
 </html>
