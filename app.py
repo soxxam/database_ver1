@@ -69,10 +69,6 @@ def basic():
 def test():
 	return render_template('test.html')
 
-@app.route('/doquiz', methods=['GET', 'POST'])
-def doquiz():
-	return render_template('doquiz.html')
-
 @app.route('/', methods=['GET', 'POST'])
 def index():
 
@@ -90,12 +86,12 @@ def api_quiz():
 	return jsonify(data)
 
 
-@app.route('/api/doquiz', methods=['GET', 'POST'])
-def api_quiz():
-	users_ref = db.collection(u'Question').stream()
-	data = OrderedDict([(doc.id, doc.to_dict()) for doc in users_ref])
-
+@app.route('/doquiz/<name>', methods=['GET', 'POST'])
+def do_quiz(name):
+	Quiz = db.collection(u'Quiz').where(u'capital', u'==', True).stream()
+	data = OrderedDict([(doc.id, doc.to_dict()) for doc in Quiz])
 	return jsonify(data)
+
 
 if __name__ == '__main__':
 	app.run(debug=True)
