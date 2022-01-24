@@ -1,11 +1,19 @@
 from asyncio.windows_events import NULL
 import datetime
+from pydoc import Doc
 from unicodedata import category
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 from flask import *
+from collections import OrderedDict
+from flask.json import JSONEncoder
+from flask_cors import CORS
+
 app = Flask(__name__)
+CORS(app)
+app.jinja_env.variable_start_string = '{['
+app.jinja_env.variable_end_string = ']}'
 
 cred = credentials.Certificate("keyfirebase.json")
 firebase_admin.initialize_app(cred)
@@ -14,7 +22,7 @@ db = firestore.client()
 
 # db.collection('persons').add({'name':'John', 'age':40})
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/form', methods=['GET', 'POST'])
 def basic():
 	if request.method == 'POST':
 		if request.form['submit'] == 'add':
@@ -55,11 +63,37 @@ def basic():
 				}
 			)
 			return render_template('index.html')
-	return render_template('index.html')
+	return render_template('form.html')
 
 @app.route('/test', methods=['GET', 'POST'])
 def test():
 	return render_template('test.html')
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+
+	return render_template('index.html')
+
+@app.route('/quiz', methods=['GET', 'POST'])
+def quiz():
+	users_ref = db.collection(u'Question').stream()
+	docs_id = []
+	title =[]
+	for doc in users_ref:
+		docs_id.append(doc.to_dict())
+		print(f'{doc.id} => {doc.to_dict()}')
+	for i in docs_id:
+		print(i['title'])
+		print("\n")
+		title.append(i['title'])
+	return render_template('quiz.html', docs_id=docs_id,title=title)
+
+@app.route('/api/quiz', methods=['GET', 'POST'])
+def api_quiz():
+	users_ref = db.collection(u'Question').stream()
+	data = OrderedDict([(doc.id, doc.to_dict()) for doc in users_ref])
+	
+	return jsonify(data)
 
 if __name__ == '__main__':
 	app.run(debug=True)

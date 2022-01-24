@@ -10,16 +10,25 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   </head>
   <body>
-    <div class="container" id="app">
-      <div class="row">
-        <div class="col-12" v-for="(key, index) in keybooks" :key="index">
-          <div v-html="books[key].name_Question">
+      <div class="container-fluid" id="app">
+        <div class="row mt-5">
+            <div class="col-6">
 
+            </div>
+            <div class="col-6">
+                <div class="list-group" v-for="(key, index) in keybooks" :key="index">
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start ">
+                      <h4 >{{ key }}</h4>
+                      <div class="d-flex w-100 justify-content-between" v-html="books[key].name_Question">
+                        
+                      </div>
+                      <p class="mb-1" v-html="books[key].id_Category"></p>
+                      <small v-html="books[key].title"></small>
+                    </a>
+                  </div>
+            </div>
           </div>
-        </div>
       </div>
-  
-    </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
