@@ -76,17 +76,7 @@ def index():
 
 @app.route('/quiz', methods=['GET', 'POST'])
 def quiz():
-	users_ref = db.collection(u'Question').stream()
-	docs_id = []
-	title =[]
-	for doc in users_ref:
-		docs_id.append(doc.to_dict())
-		print(f'{doc.id} => {doc.to_dict()}')
-	for i in docs_id:
-		print(i['title'])
-		print("\n")
-		title.append(i['title'])
-	return render_template('quiz.html', docs_id=docs_id,title=title)
+	return render_template('quiz.html')
 
 @app.route('/api/quiz', methods=['GET', 'POST'])
 def api_quiz():
