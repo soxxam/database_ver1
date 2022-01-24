@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="D:\work_in_pytech\data_eng_ver1\venv"
+VIRTUAL_ENV="C:\Users\manba\Desktop\database_ver1\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
