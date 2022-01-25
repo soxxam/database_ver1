@@ -21,50 +21,15 @@
             <h5>{[ slug ]}</h3>
           </div>
           <div class="col-12">
-            <form action="score/{[name]}" method="post">
+            <form>
               <div class="form-group">
-                <label for="exampleInputEmail1">Tài khoản</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter username" name="id_user">
+                <label for="exampleInputEmail1">Tên của bạn là : {[user_name]}</label>
+                <label for="exampleInputEmail1">Điểm của bạn là : {[diem]}</label>
+        
               </div>
               
-              <!-- 1 cau -->
-              <div class="mb-3" v-for="(key, index) in ques_json" :key="index" style="border: 1px solid gray; padding: 10px;">
-                
-                  <div v-html="key.name_Question">
-                  </div>
-                  <div v-for="(a, i) in ans" :key="i">
-                    <div  v-if="key.key == a.id_Question">
+             
 
-                    <div class="form-check">
-                    <input class="form-check-input" type="radio" :name="a.id_Question" :value="a.Option_ans[0]"  checked>
-                    <label class="form-check-label" v-html="a.Option_ans[0]">
-                    </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" :name="a.id_Question"  :value="a.Option_ans[1]" >
-                      <label class="form-check-label" v-html="a.Option_ans[1]">
-
-                      </label>
-                    </div>
-                    <div class="form-check ">
-                      <input class="form-check-input" type="radio" :name="a.id_Question"  :value="a.Option_ans[2]">
-                      <label class="form-check-label" v-html="a.Option_ans[2]">
-
-                      </label>
-                    </div>
-                    <div class="form-check ">
-                      <input class="form-check-input" type="radio" :name="a.id_Question" :value="a.Option_ans[3]">
-                      <label class="form-check-label" v-html="a.Option_ans[3]">
-  
-                      </label>
-                    </div>
-                  </div>
-                  </div>
-              </div>
-              <!-- het 1 cau -->
-
-
-              <button type="submit" class="btn btn-primary mb-5" name="tinhdiem" value="score">Submit</button>
           </form>
           </div>
         </div>

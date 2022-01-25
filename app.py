@@ -158,6 +158,78 @@ def do_quiz(name):
 		return "No such document"
 	return render_template('doquiz.html',title=title,slug=slug,name=name)
 
+
+#####################################################
+@app.route('/quiz/score/<name>', methods=['GET', 'POST'])
+def score(name):
+	
+	id_quiz = db.collection(u'Quiz_Detail').where('Id_Quiz', '==', name).stream()
+	a=[]
+	for i in id_quiz:
+		t = i.to_dict()
+
+		a.append(t['Id_Ques'])
+	print(a)
+
+
+		
+	diem = 0 
+	if request.method == 'POST':
+	
+		if request.form['tinhdiem'] == 'score':
+			id_user = request.form['id_user']
+
+			for i in a:
+				#print(request.form[i])
+
+				radio = request.form[i]
+
+
+				ans = db.collection(u'Option').where('id_Question', '==', i).stream()
+				#print(ans)
+				#print(len(ans.to_dict()))
+			
+				for x in ans:
+					k = x.to_dict()
+					#print(k['True_ans'])
+					#e.append(k)
+
+					if k['True_ans'] == radio:
+						diem = diem +1
+					else:
+						print("bye")
+					
+					
+	
+				
+	print(diem)
+			
+		
+
+	result= db.collection('Result').add({'Id_user':id_user , 'Quiz_id': name, 'Score': str(diem)+'/'+str(len(a))})
+
+	id = result[1].id
+
+	for i in a:
+		
+		radio = request.form[i]
+		ans = db.collection(u'Option').where('id_Question', '==', i).stream()
+				#print(ans)
+				#print(len(ans.to_dict()))
+			
+		for x in ans:
+			k = x.to_dict()
+			if k['True_ans'] == radio:
+				result1 =  db.collection('Result_details').add({'result_id':id , 'question_id':i , 'option_user':radio , 'Is_right':True})
+
+			else:
+
+				result1 =  db.collection('Result_details').add({'result_id':id , 'question_id':i , 'option_user':radio , 'Is_right':False})
+
+
+	return render_template('score.html', diem = str(diem)+'/'+str(len(a)), user_name =id_user )
+
+
 @app.route('/api/quiz_detail/<name>', methods=['GET', 'POST'])
 def api_do_quiz(name):
 	Quiz_detail = db.collection(u'Quiz_Detail').where(u'Id_Quiz', u'==', name).stream()
@@ -165,6 +237,8 @@ def api_do_quiz(name):
 	for doc in Quiz_detail:
 		detail.append(doc.to_dict())
 	return jsonify(detail)
+
+
 
 @app.route('/api/question/<name>', methods=['GET', 'POST'])
 def ques(name):
