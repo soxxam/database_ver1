@@ -1,40 +1,138 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <title>Bootstrap Example</title>
-  <meta charset="utf-8">
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</head>
-<body>
-<div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <span class="input-group-text" id="basic-addon1">Nhập tên: </span>
-  </div>
-  <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-</div>
-<div class="container" style="border-style: solid;">
-  <h2>Bài Test</h2>
-  <p>Câu hỏi:Ai giỏi nhất ?</p>
-  <form>
-    <div class="radio">
-      <label><input type="radio" name="optradio" >Hoàng</label>
-    </div>
-    <div class="radio">
-      <label><input type="radio" name="optradio">Huy Hoàng</label>
-    </div>
-    <div class="radio">
-      <label><input type="radio" name="optradio" >Nguyễn Huy Hoàng</label>
-    </div>
-      <div class="radio">
-      <label><input type="radio" name="optradio" >Hoàng D14TTNT&TGMT</label>
-    </div>
-  </form>
-</div>
-<button type="button" class="btn btn-primary">Gửi bài</button>
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-</body>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  </head>
+  <body style="background-color: rgb(218, 247, 247);">
+      <div class="container" id="app" style="background-color: white;">
+        <div class="row mt-5">
+          <div class="col-12 mt-5">
+            <h3>{[ title ]}</h3>
+            <small id="id_quiz1">{[name]}</small>
+            <!-- <input type="text" v-model="id_quiz" value="{[name]}"> -->
+          </div>
+          <div class="col-12">
+            <h5>{[ slug ]}</h3>
+          </div>
+          <div class="col-12">
+            <form>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Tài khoản</label>
+                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter username">
+              </div>
+              
+              <!-- 1 cau -->
+              <div class="mb-3" v-for="(key, index) in ques_json" :key="index">
+                
+                  <div v-html="key.name_Question">
+                  </div>
+                  <div v-for="(a, i) in ans" :key="i">
+                    <div  v-if="key.key == a.id_Question">
+
+                    <div class="form-check">
+                    <input class="form-check-input" type="radio" name="exampleRadios" value="option1" checked>
+                    <label class="form-check-label" v-html="a.Option_ans[0]">
+                    </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="exampleRadios"  value="option2">
+                      <label class="form-check-label" v-html="a.Option_ans[1]">
+
+                      </label>
+                    </div>
+                    <div class="form-check disabled">
+                      <input class="form-check-input" type="radio" name="exampleRadios"  value="option3">
+                      <label class="form-check-label" v-html="a.Option_ans[2]">
+
+                      </label>
+                    </div>
+                    <div class="form-check disabled">
+                      <input class="form-check-input" type="radio" name="exampleRadios" value="option4">
+                      <label class="form-check-label" v-html="a.Option_ans[3]">
+  
+                      </label>
+                    </div>
+                  </div>
+                  </div>
+              </div>
+              <!-- het 1 cau -->
+
+
+              <button type="submit" class="btn btn-primary mb-5">Submit</button>
+          </form>
+          </div>
+        </div>
+      </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script  language="JavaScript">
+      var x = document.getElementById("id_quiz1").innerText;
+      console.log(x)
+      const vm = new Vue({
+              el: '#app',
+              // Mock data for the value of BTC in USD
+              data() {
+                return {
+                  quiz_detail: [],
+                  ques_json: [],
+                  id_quiz: x,
+                  ans: [],
+                };
+              },
+              methods: {
+                async getBooks() {
+                  try{
+                  let res = await axios.get('http://localhost:5000/api/quiz_detail/'+x)
+                  this.quiz_detail = res.data
+                  console.log(this.quiz_detail.length)
+                  for(let book of this.quiz_detail){
+                      this.getQuestion(book.Id_Ques)
+                      this.getAnswer(book.Id_Ques)}
+                  }catch(err){
+                    console.log(err)
+                  }
+                },
+                async getAnswer(id) {
+                  try {
+                    let res = await axios.get('http://localhost:5000/api/answers/'+id)
+                    ti = res.data
+                    for (let i in res.data){
+                      this.ans.push({Option_ans: ti[i].Option_ans, id_Question: ti[i].id_Question})
+                    }
+                  } catch (error) {
+                    console.log(error)
+                  }
+                  
+                },
+                async getQuestion(id) {
+                  try {
+                    let res_ques = await axios.get('http://127.0.0.1:5000/api/question/'+id)    
+                    t = res_ques.data
+                    for (let i in res_ques.data){
+                      this.ques_json.push({name_Question: t[i].name_Question, key: i})
+                    }
+                  } catch (error) {
+                    console.log(error);
+                  }
+                },
+              },
+              created() {
+                this.getBooks();
+                // this.cleanques();
+               
+              },
+            });
+      </script>
+  </body>
 </html>

@@ -74,9 +74,10 @@ def basic():
 def test():
 	return render_template('test.html')
 
-@app.route('/doquiz', methods=['GET', 'POST'])
-def doquiz():
-	return render_template('doquiz.html')
+#
+# @app.route('/doquiz', methods=['GET', 'POST'])
+# def doquiz():
+# 	return render_template('doquiz.html')
 
 @app.route('/createquiz', methods=['GET', 'POST'])
 def createquiz():
@@ -116,28 +117,76 @@ def index():
 
 @app.route('/quiz', methods=['GET', 'POST'])
 def quiz():
-	users_ref = db.collection(u'Question').stream()
-	docs_id = []
-	title =[]
-	for doc in users_ref:
-		docs_id.append(doc.to_dict())
-		print(f'{doc.id} => {doc.to_dict()}')
-	for i in docs_id:
-		print(i['title'])
-		print("\n")
-		title.append(i['title'])
-	return render_template('quiz.html', docs_id=docs_id,title=title)
+	return render_template('quiz.html')
 
-@app.route('/api/quiz', methods=['GET', 'POST'])
+@app.route('/api/ques', methods=['GET', 'POST'])
 def api_quiz():
 	users_ref = db.collection(u'Question').stream()
 	data = OrderedDict([(doc.id, doc.to_dict()) for doc in users_ref])
 	
 	return jsonify(data)
 
+############################
+@app.route('/menu', methods=['GET', 'POST'])
+def menu():
+	users_ref = db.collection(u'Quiz').stream()
+	docs_id = []
+	title =[]
+	for doc in users_ref:
+		docs_id.append(doc.to_dict())
+		print(f'{doc.id} => {doc.to_dict()}')
+	return render_template('menu.html', docs_id=docs_id,title=title)
 
 
+@app.route('/api/menu', methods=['GET', 'POST'])
+def api_menu():
+	users_ref = db.collection(u'Quiz').stream()
+	data = OrderedDict([(doc.id, doc.to_dict()) for doc in users_ref])
 	return jsonify(data)
+
+
+@app.route('/quiz/<name>', methods=['GET', 'POST'])
+def do_quiz(name):
+	# get info quiz
+	Quiz = db.collection(u'Quiz').document(name).get()
+	if Quiz.exists:
+		print(f'Document data: {Quiz.to_dict()}')
+		iquizz = Quiz.to_dict()
+		title = iquizz['Title']
+		slug = iquizz['Slug']
+	else:
+		print(u'No such document!')
+		return "No such document"
+	return render_template('doquiz.html',title=title,slug=slug,name=name)
+
+@app.route('/api/quiz_detail/<name>', methods=['GET', 'POST'])
+def api_do_quiz(name):
+	Quiz_detail = db.collection(u'Quiz_Detail').where(u'Id_Quiz', u'==', name).stream()
+	detail = []
+	for doc in Quiz_detail:
+		detail.append(doc.to_dict())
+	return jsonify(detail)
+
+@app.route('/api/question/<name>', methods=['GET', 'POST'])
+def ques(name):
+	Ques = db.collection(u'Question').document(name).get()
+	if Ques.exists:
+		# d = Ques.to_dict()
+		data = OrderedDict([(Ques.id, Ques.to_dict())])
+		return jsonify(data)
+	else:
+		print(u'No such document!')
+		return 'No such document!'
+
+@app.route('/api/answers/<name>', methods=['GET', 'POST'])
+def answers(name):
+	Ans = db.collection(u'Option').where(u'id_Question', u'==', name).stream()
+	detail = []
+	for doc in Ans:
+		detail.append(doc.to_dict())
+	return jsonify(detail)
+
+
 
 if __name__ == '__main__':
 	app.run(debug=True)
