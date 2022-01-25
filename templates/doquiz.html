@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Menu</title>
+    <title>Title</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -9,73 +9,60 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   </head>
-  <body>
-    <div class="container">
-      <div class="row justify-content-md-center" style="margin-top: 5%;" >
-        <div class="col-md-8 grid-margin stretch-card">
-       
-              <h4 class="card-title">Tên user</h4>
-              
-                
-              <form class="forms-sample">
-              <input type="text" name="" id="">
-
-              
-      <div class="content-wrapper" style="margin-top: 10%;" id="app">
-             
-        <div class="row justify-content-md-center" style="margin-top: 5%;" v-for="(key, index) in keybooks" :key="index">
-          <div class="col-md-8 grid-margin stretch-card">
-            <div class="card">
-              <div class="card-body">
-                <h4 class="card-title">Bài tập 1</h4>
-                <p class="card-description" v-html="books[key].Title">
-                 
-                </p>
-                <p class="card-description" v-html="books[key].Slug">
-                   
-                  </p>
-             
-               
-
-                  <div class="form-group col-md-12 form-check">
-           
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="answer1">
-                    <label for="">câu trả lời 1</label><br>
-                    
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="answer1">
-                    <label for="">câu trả lời 1</label><br>
-                    
-                    
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="answer1">
-                    <label for="">câu trả lời 1</label><br>
-                    
-                    
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="answer1">
-                    <label for="">câu trả lời 1</label><br>
-                    
-
-                    
-                  </div>
-                  </div>
-                  
-              
+  <body style="background-color: rgb(218, 247, 247);">
+      <div class="container" id="app" style="background-color: white;">
+        <div class="row mt-5">
+          <div class="col-12 mt-5">
+            <h3>{[ title ]}</h3>
+            <small id="id_quiz1">{[name]}</small>
+            <!-- <input type="text" v-model="id_quiz" value="{[name]}"> -->
+          </div>
+          <div class="col-12">
+            <h5>{[ slug ]}</h3>
+          </div>
+          <div class="col-12">
+            <form>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Tài khoản</label>
+                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter username">
               </div>
-            </div>
-          </div>
-          <div class="row justify-content-md-center" style="margin-top: 5%;" >
+              
+              <!-- 1 cau -->
+              <div class="mb-3" v-for="(qu, index) in ques_json" :key="index">
+                <div v-html="qu.name_Question"></div>
+                
+                <div class="form-check">
+                <input class="form-check-input" type="radio" name="exampleRadios" value="option1" checked>
+                <label class="form-check-label" >
+                  Default radio
+                </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="exampleRadios"  value="option2">
+                  <label class="form-check-label" >
+                    Second default radio
+                  </label>
+                </div>
+                <div class="form-check disabled">
+                  <input class="form-check-input" type="radio" name="exampleRadios"  value="option3">
+                  <label class="form-check-label" >
+                    Disabled radio
+                  </label>
+                </div>
+                <div class="form-check disabled">
+                  <input class="form-check-input" type="radio" name="exampleRadios" value="option4">
+                  <label class="form-check-label" >
+                    Disabled radio
+                  </label>
+                </div>
+              </div>
+              <!-- het 1 cau -->
 
-          <button type="button" class="btn btn-primary" >Nộp bài</button>
 
-        </form>
+              <button type="submit" class="btn btn-primary mb-5">Submit</button>
+          </form>
           </div>
-       
-          
         </div>
-       
-       
-     
-        
-          
       </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -85,38 +72,49 @@
     <script src="https://unpkg.com/vue"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script  language="JavaScript">
-        const vm = new Vue({
-                el: '#app',
-                // Mock data for the value of BTC in USD
-                data() {
-                  return {
-                    books: [],
-                    keybooks: [],
-                  };
+      var x = document.getElementById("id_quiz1").innerText;
+      console.log(x)
+      const vm = new Vue({
+              el: '#app',
+              // Mock data for the value of BTC in USD
+              data() {
+                return {
+                  quiz_detail: [],
+                  ques: null,
+                  ques_json: [],
+                  id_quiz: x,
+                };
+              },
+              methods: {
+                async getBooks() {
+                  try{
+                  let res = await axios.get('http://localhost:5000/api/quiz_detail/'+x)
+                  this.quiz_detail = res.data
+                  console.log(this.quiz_detail.length)
+                  for(let book of this.quiz_detail){
+                      this.getQuestion(book.Id_Ques)
+                      this.getAnswer(book.ID_Ans)}
+                  }catch(err){
+                    console.log(err)
+                  }
                 },
-                methods: {
-                  getBooks() {
-                    const path = 'http://localhost:5000/api/menu';
-                    axios.get(path)
-                      .then((res) => res.data)
-                      .then(res => {
-                        this.keybooks = Object.keys(res),
-                        this.books = res
-                      })
-                      .catch((error) => {
-                        // eslint-disable-next-line
-                        console.error(error);
-                      });
-                  },
+                async getAnswer(id) {
+                  
                 },
-                created() {
-                  this.getBooks();
-                },
-              });
-        </script>
-
-
-
-
-</body>
+                async getQuestion(id) {
+                  try {
+                    let res_ques = await axios.get('http://127.0.0.1:5000/api/question/'+id)
+                    this.ques_json.push(res_ques.data)
+                  } catch (error) {
+                    console.log(error);
+                  }
+                }
+              },
+              created() {
+                this.getBooks();
+               
+              },
+            });
+      </script>
+  </body>
 </html>
