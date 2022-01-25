@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container" style="border-style: solid;">
+  <h2>Tạo quiz</h2>
+  <form action="/createquiz" method="post">
+      <input type="text" class="form-control" name="slug" aria-describedby="basic-addon1">
+      <p>Slug</p>
+    <input type="text" class="form-control" name="title" aria-describedby="basic-addon1">
+      <p>Title</p>
+      <button type="submit" name="submit" class="btn btn-primary" value="addquiz">Tạo Quiz</button>
+  </form>
+</div>
+
+
+</body>
+</html>

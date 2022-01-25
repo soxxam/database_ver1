@@ -1,6 +1,7 @@
 from asyncio.windows_events import NULL
 import datetime
 from pydoc import Doc
+import random
 from unicodedata import category
 import firebase_admin
 from firebase_admin import credentials
@@ -51,6 +52,9 @@ def basic():
 			# down here is add question to database on firebase firestore
 			d = db.collection('Question').add({'name_Question':question, 'id_Category':id_cate ,'title':title})
 			docId = d[1].id
+
+			# quesId = db.collection(u'QaA_Category').document(u'Id_category')
+			# quiz_id_detail =
 			print('Id:',docId)
 			# ans = db.collection('Option').add({'id_Question':docId, 'True_ans':true_ans})
 			new_city_ref = db.collection("Option").document()
@@ -65,6 +69,7 @@ def basic():
 			return render_template('index.html')
 	return render_template('form.html')
 
+
 @app.route('/test', methods=['GET', 'POST'])
 def test():
 	return render_template('test.html')
@@ -73,8 +78,39 @@ def test():
 def doquiz():
 	return render_template('doquiz.html')
 
+@app.route('/createquiz', methods=['GET', 'POST'])
+def createquiz():
+	if request.method == 'POST':
+		if request.form['submit'] == 'addquiz':
+			slug = request.form['slug']
+			title = request.form['title']
+
+			Q = db.collection('Quiz').add({ 'Slug': slug, 'Title': title})
+			QuizId = Q[1].id
+			ques_pas = db.collection(u'Question').where('id_Category', '==', "n6fIj5OpPkJ17wUgYA2o").stream()
+			ques_nps = db.collection(u'Question').where('id_Category', '==', "BqDs7eNcSXlHb8d9uTCh").stream()
+			a = []
+			for ques_pa in ques_pas:
+				a.append(ques_pa.id)
+
+			for i in range(5):
+				ques_a = random.choice(a)
+				Q_detail_a = db.collection('Quiz_Detail').add({'Id_Quiz': QuizId, 'Id_Ques': ques_a})
+
+			b = []
+			for ques_np in ques_nps:
+				b.append(ques_np.id)
+				print(f'{ques_np.id}')
+			#
+			for i in range(5):
+				ques_b = random.choice(b)
+				Q_detail_b = db.collection('Quiz_Detail').add({'Id_Quiz': QuizId, 'Id_Ques': ques_b})
+
+	return render_template('createquiz.html')
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
+
 
 	return render_template('index.html')
 
@@ -100,10 +136,6 @@ def api_quiz():
 	return jsonify(data)
 
 
-@app.route('/api/doquiz', methods=['GET', 'POST'])
-def api_quiz():
-	users_ref = db.collection(u'Question').stream()
-	data = OrderedDict([(doc.id, doc.to_dict()) for doc in users_ref])
 
 	return jsonify(data)
 
