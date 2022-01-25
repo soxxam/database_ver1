@@ -28,33 +28,38 @@
               </div>
               
               <!-- 1 cau -->
-              <div class="mb-3" v-for="(qu, index) in ques_json" :key="index">
-                <div v-html="qu.name_Question"></div>
+              <div class="mb-3" v-for="(key, index) in ques_json" :key="index">
                 
-                <div class="form-check">
-                <input class="form-check-input" type="radio" name="exampleRadios" value="option1" checked>
-                <label class="form-check-label" >
-                  Default radio
-                </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="exampleRadios"  value="option2">
-                  <label class="form-check-label" >
-                    Second default radio
-                  </label>
-                </div>
-                <div class="form-check disabled">
-                  <input class="form-check-input" type="radio" name="exampleRadios"  value="option3">
-                  <label class="form-check-label" >
-                    Disabled radio
-                  </label>
-                </div>
-                <div class="form-check disabled">
-                  <input class="form-check-input" type="radio" name="exampleRadios" value="option4">
-                  <label class="form-check-label" >
-                    Disabled radio
-                  </label>
-                </div>
+                  <div v-html="key.name_Question">
+                  </div>
+                  <div v-for="(a, i) in ans" :key="i">
+                    <div  v-if="key.key == a.id_Question">
+
+                    <div class="form-check">
+                    <input class="form-check-input" type="radio" name="exampleRadios" value="option1" checked>
+                    <label class="form-check-label" v-html="a.Option_ans[0]">
+                    </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="exampleRadios"  value="option2">
+                      <label class="form-check-label" v-html="a.Option_ans[1]">
+
+                      </label>
+                    </div>
+                    <div class="form-check disabled">
+                      <input class="form-check-input" type="radio" name="exampleRadios"  value="option3">
+                      <label class="form-check-label" v-html="a.Option_ans[2]">
+
+                      </label>
+                    </div>
+                    <div class="form-check disabled">
+                      <input class="form-check-input" type="radio" name="exampleRadios" value="option4">
+                      <label class="form-check-label" v-html="a.Option_ans[3]">
+  
+                      </label>
+                    </div>
+                  </div>
+                  </div>
               </div>
               <!-- het 1 cau -->
 
@@ -80,9 +85,9 @@
               data() {
                 return {
                   quiz_detail: [],
-                  ques: null,
                   ques_json: [],
                   id_quiz: x,
+                  ans: [],
                 };
               },
               methods: {
@@ -93,25 +98,38 @@
                   console.log(this.quiz_detail.length)
                   for(let book of this.quiz_detail){
                       this.getQuestion(book.Id_Ques)
-                      this.getAnswer(book.ID_Ans)}
+                      this.getAnswer(book.Id_Ques)}
                   }catch(err){
                     console.log(err)
                   }
                 },
                 async getAnswer(id) {
+                  try {
+                    let res = await axios.get('http://localhost:5000/api/answers/'+id)
+                    ti = res.data
+                    for (let i in res.data){
+                      this.ans.push({Option_ans: ti[i].Option_ans, id_Question: ti[i].id_Question})
+                    }
+                  } catch (error) {
+                    console.log(error)
+                  }
                   
                 },
                 async getQuestion(id) {
                   try {
-                    let res_ques = await axios.get('http://127.0.0.1:5000/api/question/'+id)
-                    this.ques_json.push(res_ques.data)
+                    let res_ques = await axios.get('http://127.0.0.1:5000/api/question/'+id)    
+                    t = res_ques.data
+                    for (let i in res_ques.data){
+                      this.ques_json.push({name_Question: t[i].name_Question, key: i})
+                    }
                   } catch (error) {
                     console.log(error);
                   }
-                }
+                },
               },
               created() {
                 this.getBooks();
+                // this.cleanques();
                
               },
             });

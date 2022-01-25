@@ -130,11 +130,21 @@ def api_do_quiz(name):
 def ques(name):
 	Ques = db.collection(u'Question').document(name).get()
 	if Ques.exists:
-		d = Ques.to_dict()
-		return jsonify(d)
+		# d = Ques.to_dict()
+		data = OrderedDict([(Ques.id, Ques.to_dict())])
+		return jsonify(data)
 	else:
 		print(u'No such document!')
 		return 'No such document!'
+
+@app.route('/api/answers/<name>', methods=['GET', 'POST'])
+def answers(name):
+	Ans = db.collection(u'Option').where(u'id_Question', u'==', name).stream()
+	detail = []
+	for doc in Ans:
+		detail.append(doc.to_dict())
+	return jsonify(detail)
+	
 
 
 if __name__ == '__main__':
