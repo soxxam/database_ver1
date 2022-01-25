@@ -36,24 +36,24 @@
                     <div  v-if="key.key == a.id_Question">
 
                     <div class="form-check">
-                    <input class="form-check-input" type="radio" :name="a.id_Question" value="option1">
+                    <input class="form-check-input" type="radio" :name="a.id_Question" :value="a.Option_ans[0]">
                     <label class="form-check-label" v-html="a.Option_ans[0]">
                     </label>
                     </div>
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" :name="a.id_Question"  value="option2">
+                      <input class="form-check-input" type="radio" :name="a.id_Question"  :value="a.Option_ans[1]">
                       <label class="form-check-label" v-html="a.Option_ans[1]">
 
                       </label>
                     </div>
                     <div class="form-check ">
-                      <input class="form-check-input" type="radio" :name="a.id_Question"  value="option3">
+                      <input class="form-check-input" type="radio" :name="a.id_Question"  :value="a.Option_ans[2]">
                       <label class="form-check-label" v-html="a.Option_ans[2]">
 
                       </label>
                     </div>
                     <div class="form-check ">
-                      <input class="form-check-input" type="radio" :name="a.id_Question" value="option4">
+                      <input class="form-check-input" type="radio" :name="a.id_Question" :value="a.Option_ans[3]">
                       <label class="form-check-label" v-html="a.Option_ans[3]">
   
                       </label>
