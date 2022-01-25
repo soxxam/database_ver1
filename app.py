@@ -93,19 +93,18 @@ def createquiz():
 			a = []
 			for ques_pa in ques_pas:
 				a.append(ques_pa.id)
+			ques_a = random.sample(a, 5)
 
-			for i in range(5):
-				ques_a = random.choice(a)
-				Q_detail_a = db.collection('Quiz_Detail').add({'Id_Quiz': QuizId, 'Id_Ques': ques_a})
+			for i in ques_a:
+				Q_detail_a = db.collection('Quiz_Detail').add({'Id_Quiz': QuizId, 'Id_Ques': i})
 
 			b = []
 			for ques_np in ques_nps:
 				b.append(ques_np.id)
-				print(f'{ques_np.id}')
-			#
-			for i in range(5):
-				ques_b = random.choice(b)
-				Q_detail_b = db.collection('Quiz_Detail').add({'Id_Quiz': QuizId, 'Id_Ques': ques_b})
+
+			ques_b = random.sample(b,5)
+			for i in ques_b:
+				Q_detail_b = db.collection('Quiz_Detail').add({'Id_Quiz': QuizId, 'Id_Ques': i})
 
 	return render_template('createquiz.html')
 
