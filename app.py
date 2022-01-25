@@ -93,15 +93,16 @@ def createquiz():
 			a = []
 			for ques_pa in ques_pas:
 				a.append(ques_pa.id)
-
+			
 			for i in range(5):
 				ques_a = random.choice(a)
+				print(ques_a)
 				Q_detail_a = db.collection('Quiz_Detail').add({'Id_Quiz': QuizId, 'Id_Ques': ques_a})
 
 			b = []
 			for ques_np in ques_nps:
 				b.append(ques_np.id)
-				print(f'{ques_np.id}')
+				# print(f'{ques_np.id}')
 			#
 			for i in range(5):
 				ques_b = random.choice(b)
@@ -185,7 +186,6 @@ def answers(name):
 	for doc in Ans:
 		detail.append(doc.to_dict())
 	return jsonify(detail)
-
 
 
 if __name__ == '__main__':
